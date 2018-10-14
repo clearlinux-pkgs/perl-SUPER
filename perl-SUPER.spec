@@ -4,22 +4,30 @@
 #
 Name     : perl-SUPER
 Version  : 1.20141117
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libs/libsuper-perl/libsuper-perl_1.20141117-1.debian.tar.xz
 Summary  : 'control superclass method dispatch'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-SUPER-license
-Requires: perl-SUPER-man
-Requires: perl(Sub::Identify)
+Requires: perl-SUPER-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Sub::Identify)
 
 %description
 This archive contains the distribution SUPER,
 version 1.20141117:
 control superclass method dispatch
+
+%package dev
+Summary: dev components for the perl-SUPER package.
+Group: Development
+Provides: perl-SUPER-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-SUPER package.
+
 
 %package license
 Summary: license components for the perl-SUPER package.
@@ -29,19 +37,11 @@ Group: Default
 license components for the perl-SUPER package.
 
 
-%package man
-Summary: man components for the perl-SUPER package.
-Group: Default
-
-%description man
-man components for the perl-SUPER package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n SUPER-1.20141117
-mkdir -p %{_topdir}/BUILD/SUPER-1.20141117/deblicense/
+cd ..
+%setup -q -T -D -n SUPER-1.20141117 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/SUPER-1.20141117/deblicense/
 
 %build
@@ -66,12 +66,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-SUPER
-cp LICENSE %{buildroot}/usr/share/doc/perl-SUPER/LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-SUPER
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-SUPER/LICENSE
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -80,12 +80,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/SUPER.pm
+/usr/lib/perl5/vendor_perl/5.26.1/SUPER.pm
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-SUPER/LICENSE
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/SUPER.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-SUPER/LICENSE
