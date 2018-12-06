@@ -4,7 +4,7 @@
 #
 Name     : perl-SUPER
 Version  : 1.20141117
-Release  : 7
+Release  : 8
 URL      : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20141117.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libs/libsuper-perl/libsuper-perl_1.20141117-1.debian.tar.xz
