@@ -4,14 +4,15 @@
 #
 Name     : perl-SUPER
 Version  : 1.20190531
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libs/libsuper-perl/libsuper-perl_1.20141117-1.debian.tar.xz
-Summary  : Control superclass method dispatch
+Summary  : 'control superclass method dispatch'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl GPL-2.0
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0 GPL-2.0
 Requires: perl-SUPER-license = %{version}-%{release}
+Requires: perl-SUPER-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Sub::Identify)
 
@@ -24,7 +25,6 @@ control superclass method dispatch
 Summary: dev components for the perl-SUPER package.
 Group: Development
 Provides: perl-SUPER-devel = %{version}-%{release}
-Requires: perl-SUPER = %{version}-%{release}
 Requires: perl-SUPER = %{version}-%{release}
 
 %description dev
@@ -39,18 +39,28 @@ Group: Default
 license components for the perl-SUPER package.
 
 
+%package perl
+Summary: perl components for the perl-SUPER package.
+Group: Default
+Requires: perl-SUPER = %{version}-%{release}
+
+%description perl
+perl components for the perl-SUPER package.
+
+
 %prep
 %setup -q -n SUPER-1.20190531
-cd ..
-%setup -q -T -D -n SUPER-1.20190531 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libsuper-perl_1.20141117-1.debian.tar.xz
+cd %{_builddir}/SUPER-1.20190531
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/SUPER-1.20190531/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/SUPER-1.20190531/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -60,7 +70,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -69,7 +79,8 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-SUPER
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-SUPER/deblicense_copyright
+cp %{_builddir}/SUPER-1.20190531/LICENSE %{buildroot}/usr/share/package-licenses/perl-SUPER/7ebe815bdb539d0c747618dbc46d09c878aa77d8
+cp %{_builddir}/SUPER-1.20190531/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-SUPER/103d8dfb2241a1d5256bf2e16db3d80201e4b90d
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -82,7 +93,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/SUPER.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -90,4 +100,9 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-SUPER/deblicense_copyright
+/usr/share/package-licenses/perl-SUPER/103d8dfb2241a1d5256bf2e16db3d80201e4b90d
+/usr/share/package-licenses/perl-SUPER/7ebe815bdb539d0c747618dbc46d09c878aa77d8
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/SUPER.pm
