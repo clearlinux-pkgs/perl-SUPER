@@ -4,7 +4,7 @@
 #
 Name     : perl-SUPER
 Version  : 1.20190531
-Release  : 12
+Release  : 13
 URL      : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libs/libsuper-perl/libsuper-perl_1.20141117-1.debian.tar.xz
@@ -80,7 +80,7 @@ make TEST_VERBOSE=1 test
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-SUPER
 cp %{_builddir}/SUPER-1.20190531/LICENSE %{buildroot}/usr/share/package-licenses/perl-SUPER/7ebe815bdb539d0c747618dbc46d09c878aa77d8
-cp %{_builddir}/SUPER-1.20190531/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-SUPER/103d8dfb2241a1d5256bf2e16db3d80201e4b90d
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-SUPER/103d8dfb2241a1d5256bf2e16db3d80201e4b90d
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -105,4 +105,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/SUPER.pm
+/usr/lib/perl5/vendor_perl/5.30.2/SUPER.pm
