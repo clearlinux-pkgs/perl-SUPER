@@ -4,7 +4,7 @@
 #
 Name     : perl-SUPER
 Version  : 1.20190531
-Release  : 13
+Release  : 14
 URL      : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/SUPER-1.20190531.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libs/libsuper-perl/libsuper-perl_1.20141117-1.debian.tar.xz
@@ -105,4 +105,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.2/SUPER.pm
+/usr/lib/perl5/vendor_perl/5.30.3/SUPER.pm
